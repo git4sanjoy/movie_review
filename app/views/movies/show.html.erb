@@ -1,0 +1,65 @@
+<div class="panel panel-default">
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-sm-12 col-md-4 col-lg-6">
+			  <%= image_tag @movie.image, width: "100%" %>
+              <div class="star-rating" data-score=<%= @avg_review %>></div>
+              <em><%= "#{@reviews.length} reviews" %></em>
+              <p>
+                <strong>Title:</strong>
+                <%= @movie.title %>
+              </p>
+              <p>
+                <strong>Description:</strong>
+                <%= @movie.description %>
+              </p>
+
+              <p>
+                <strong>Movie length:</strong>
+                <%= @movie.movie_length %>
+              </p>
+
+              <p>
+                <strong>Director:</strong>
+                <%= @movie.director %>
+              </p>
+
+              <p>
+                <strong>Rating:</strong>
+                <%= @movie.rating %>
+              </p>
+              <p><%= link_to 'Add Review to Movie', new_movie_review_path(@movie) %></p>
+			</div>
+			<div class="col-sm-12 col-md-6  col-lg-6">
+                <h1><%= @movie.title %></h1>
+                <p><%= @movie.description %></p>
+
+              <% if @reviews.blank? %>
+                <h3>No reviews just yer, would you like to add the first!</h3>
+                <p><%= link_to 'Add Review', new_movie_review_path(@movie), class: "btn btn-danger" %></p>
+              <% else %>
+                <% @reviews.each do |review| %>
+                  <div class="reviews">
+                    <div class="star-rating" data-score=<%= review.rating %>></div>
+                    <p><%= review.comment %></p>
+                  </div>
+                <% end %>
+              <% end %>
+              <% #render "reviews/form"%>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<%= link_to 'Edit', edit_movie_path(@movie) %> |
+<%= link_to 'Back', movies_path %>
+<script>
+$('.star-rating').raty({
+    path: '/assets/',
+    readOnly: true,
+    score: function(){
+        return $(this).attr('data-score')
+    }
+});
+</script>
